@@ -28,7 +28,7 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const { join } = require("path");
-
+const PORT = global.port;
 const {
   imageToWebp,
   videoToWebp,
