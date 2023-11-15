@@ -106,7 +106,57 @@ const startA17 = async () => {
   });
 
   store.bind(A17.ev);
+/////////
+  await readcommands();
 
+  A17.ev.on("creds.update", saveState);
+  A17.serializeM = (m) => smsg(Atlas, m, store);
+  A17.ev.on("connection.update", async (update) => {
+    const { lastDisconnect, connection, qr } = update;
+    if (connection) {
+      console.info(`[ ATLAS ] Server Status => ${connection}`);
+    }
+
+    if (connection === "close") {
+      let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
+      if (reason === DisconnectReason.badSession) {
+        console.log(
+          `[ ATLAS ] Bad Session File, Please Delete Session and Scan Again.\n`
+        );
+        process.exit();
+      } else if (reason === DisconnectReason.connectionClosed) {
+        console.log("[ ATLAS ] Connection closed, reconnecting....\n");
+        startA17();
+      } else if (reason === DisconnectReason.connectionLost) {
+        console.log("[ ATLAS ] Connection Lost from Server, reconnecting...\n");
+        startA17();
+      } else if (reason === DisconnectReason.connectionReplaced) {
+        console.log(
+          "[ ATLAS ] Connection Replaced, Another New Session Opened, Please Close Current Session First!\n"
+        );
+        process.exit();
+      } else if (reason === DisconnectReason.loggedOut) {
+        clearState();
+        console.log(
+          `[ ATLAS ] Device Logged Out, Please Delete Session and Scan Again.\n`
+        );
+        process.exit();
+      } else if (reason === DisconnectReason.restartRequired) {
+        console.log("[ ATLAS ] Server Restarting...\n");
+        startA17();
+      } else if (reason === DisconnectReason.timedOut) {
+        console.log("[ ATLAS ] Connection Timed Out, Trying to Reconnect...\n");
+        startA17();
+      } else {
+        console.log(
+          `[ ATLAS ] Server Disconnected: "It's either safe disconnect or WhatsApp Account got banned !\n"`
+        );
+      }
+    }
+    if (qr) {
+      QR_GENERATE = qr;
+    }
+  });
 
  //
   A17.ws.on('CB:call', async (json) => {
