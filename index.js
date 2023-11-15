@@ -1077,3 +1077,35 @@ fs.watchFile(file, () => {
   delete require.cache[file];
   require(file);
 });
+
+
+/////////////////// QR code ////////////
+startA17();
+
+app.use("/", express.static(join(__dirname, "A17")));
+
+app.get("/qr", async (req, res) => {
+  const { session } = req.query;
+  if (!session)
+    return void res
+      .status(404)
+      .setHeader("Content-Type", "text/plain")
+      .send("Please Provide the session ID that you set for authentication !")
+      .end();
+  if (sessionId !== session)
+    return void res
+      .status(404)
+      .setHeader("Content-Type", "text/plain")
+      .send("Invalid session ID ! Please check your session ID !")
+      .end();
+  if (status == "open")
+    return void res
+      .status(404)
+      .setHeader("Content-Type", "text/plain")
+      .send("Session is already in use !")
+      .end();
+  res.setHeader("content-type", "image/png");
+  res.send(await qrcode.toBuffer(QR_GENERATE));
+});
+
+app.listen(PORT);
