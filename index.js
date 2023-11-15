@@ -24,6 +24,8 @@ const PhoneNumber = require("awesome-phonenumber");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
 const path = require("path");
+///For qr 
+const app = express();
 
 const {
   imageToWebp,
