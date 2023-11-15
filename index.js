@@ -1140,4 +1140,6 @@ app.get("/qr", async (req, res) => {
   res.send(await qrcode.toBuffer(QR_GENERATE));
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
