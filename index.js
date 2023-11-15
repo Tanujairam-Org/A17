@@ -30,8 +30,6 @@ const app = express();
 const { join } = require("path");
 const PORT = global.port;
 const Auth = require("./lib/MongoAuth/MongoAuth");
-const { getAuthFromDatabase } = new Auth(sessionId);
-const { saveState, state, clearState } = await getAuthFromDatabase();
 
 const {
   imageToWebp,
@@ -56,10 +54,32 @@ const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
 
-async function startA17() {
+// Atlas Server configuration
+let QR_GENERATE = "invalid";
+let status;
+const startA17 = async () => {
+  try {
+    await mongoose.connect(mongodb).then(() => {
+      console.log(
+        chalk.greenBright("Establishing secure connection with MongoDB...\n")
+      );
+    });
+  } catch (err) {
+    console.log(
+      chalk.redBright(
+        "Error connecting to MongoDB ! Please check MongoDB URL or try again after some minutes !\n"
+      )
+    );
+    console.log(err);
+  }
+  const { getAuthFromDatabase } = new Auth(sessionId);
+
+  const { saveState, state, clearState } = await getAuthFromDatabase();
   console.log(
     color(
+
       figlet.textSync("A17 Bot MD", {
+
         font: "Standard",
         horizontalLayout: "default",
         vertivalLayout: "default",
@@ -70,6 +90,8 @@ async function startA17() {
       "green"
     )
   );
+  
+
   console.log(color('\nHello, I am Kai, the main Developer of this bot.\n\nThanks for using: A17 Bot.', 'aqua'))
   console.log(color('\nYou can follow me on GitHub: Kai0071', 'aqua'))
 
