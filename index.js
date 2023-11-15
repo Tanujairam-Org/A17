@@ -31,7 +31,7 @@ const { join } = require("path");
 const PORT = global.port;
 const Auth = require("./lib/MongoAuth/MongoAuth");
 const mongoose = require("mongoose");
-const { readcommands, commands } = require("./System/ReadCommands.js");
+const { readcommands, commands } = require("./lib/ReadCommands.js");
 
 
 const {
