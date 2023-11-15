@@ -33,7 +33,7 @@ global.SupportGroupLink = "https://chat.whatsapp.com/GhRGdwfaMVDCoeAdzILfl";
 
 
 //
-global.sessionName = "session";                          //Do not change.
+global.sessionName = process.env.SESSION_ID || "session";                          //Do not change.
 
 
 //
