@@ -29,6 +29,7 @@ const express = require("express");
 const app = express();
 const { join } = require("path");
 const PORT = global.port;
+const Auth = require("./lib/MongoAuth/MongoAuth");
 const { getAuthFromDatabase } = new Auth(sessionId);
 const { saveState, state, clearState } = await getAuthFromDatabase();
 
