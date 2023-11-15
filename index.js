@@ -27,6 +27,7 @@ const path = require("path");
 ///For qr 
 const express = require("express");
 const app = express();
+const { join } = require("path");
 
 const {
   imageToWebp,
