@@ -18,7 +18,7 @@ global.autoreadgc = true;
 
 //
 global.prefa = ["."];                                    //Default prefix here. you can change if you want.
-global.port = process.env.PORT || "3000";
+global.port = process.env.PORT || "10000";
 global.mongodb = process.env.MONGODB || "mongodb+srv://tanujairam:tanujairam@whatsapp.yixkzgb.mongodb.net/?retryWrites=true&w=majority";
 //
 global.Owner = ["916297175943", "919362639362"];         //If you want singal number so global.Owner = ['916297175943'] Change into your number.
@@ -34,7 +34,7 @@ global.SupportGroupLink = "https://chat.whatsapp.com/GhRGdwfaMVDCoeAdzILfl";
 
 //
 global.sessionName = "session";                          //Do not change.
-global.sessionId = process.env.SESSION_ID || "nothing";
+global.sessionId = process.env.SESSION_ID || "ok";
 
 //
 global.openAiAPI = "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";
