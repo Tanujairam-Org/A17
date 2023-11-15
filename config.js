@@ -19,7 +19,7 @@ global.autoreadgc = true;
 //
 global.prefa = ["."];                                    //Default prefix here. you can change if you want.
 global.port = process.env.PORT || "10000";
-
+global.mongodb = process.env.MONGODB || "mongodb+srv://tuff:tuff@cluster0.fhsvdnc.mongodb.net/test";
 //
 global.Owner = ["916297175943", "919362639362"];         //If you want singal number so global.Owner = ['916297175943'] Change into your number.
 global.OwnerNumber = ["916297175943", "919362639362"];   //If you want singal number so global.Owner = ['916297175943'] Change into your number.
