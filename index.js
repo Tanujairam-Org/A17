@@ -72,7 +72,7 @@ const startA17 = async () => {
     );
     console.log(err);
   }
-  const { getAuthFromDatabase } = new Auth(sessionId);
+  const { getAuthFromDatabase } = new Auth(sessionName);
 
   const { saveState, state, clearState } = await getAuthFromDatabase();
   console.log(
