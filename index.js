@@ -29,6 +29,8 @@ const express = require("express");
 const app = express();
 const { join } = require("path");
 const PORT = global.port;
+const { saveState, state, clearState } = await getAuthFromDatabase();
+
 const {
   imageToWebp,
   videoToWebp,
