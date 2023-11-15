@@ -33,8 +33,8 @@ global.SupportGroupLink = "https://chat.whatsapp.com/GhRGdwfaMVDCoeAdzILfl";
 
 
 //
-global.sessionName = process.env.SESSION_ID || "session";                          //Do not change.
-
+global.sessionName = "session";                          //Do not change.
+global.sessionId = process.env.SESSION_ID || "nothing";
 
 //
 global.openAiAPI = "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";
