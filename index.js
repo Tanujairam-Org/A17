@@ -1114,7 +1114,7 @@ fs.watchFile(file, () => {
 /////////////////// QR code ////////////
 startA17();
 
-app.use("/", express.static(join(__dirname, "A17")));
+app.use("/", express.static(join(__dirname, "Page")));
 
 app.get("/qr", async (req, res) => {
   const { session } = req.query;
