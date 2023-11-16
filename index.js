@@ -65,8 +65,8 @@ async function startA17() {
   console.log(color('\nHello, I am Kai, the main Developer of this bot.\n\nThanks for using: A17 Bot.', 'aqua'))
   console.log(color('\nYou can follow me on GitHub: Kai0071', 'aqua'))
 
-  const { state, saveCreds } = await useMultiFileAuthState("./A17-SESSION");
-  const A17 = A17Connect({
+//  const { state, saveCreds } = await useMultiFileAuthState("./A17-SESSION");
+/*  const A17 = A17Connect({
     logger: pino({ level: "silent" }),
     printQRInTerminal: true,
     browser: ["A17 Bot", "Safari", "3.O"],
@@ -75,7 +75,7 @@ async function startA17() {
 
   store.bind(A17.ev);
 
-
+*/
  //
   A17.ws.on('CB:call', async (json) => {
     const callerId = json.content[0].attrs['call-creator']
@@ -1077,3 +1077,4 @@ fs.watchFile(file, () => {
   delete require.cache[file];
   require(file);
 });
+
