@@ -51,20 +51,20 @@ const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
 
-async function startA17() {
-  console.log(
-    color(
-      figlet.textSync("A17 Bot MD", {
-        font: "Standard",
-        horizontalLayout: "default",
-        vertivalLayout: "default",
-        //width: 80,
-        // whitespaceBreak: true,
-        whitespaceBreak: false,
-      }),
-      "green"
-    )
-  );
+async function start17() {
+    CFonts.say('MIZUHARA\nBY\nARUS', {
+        font: 'block',
+        align: 'center',
+        gradient: ['blue', 'magenta']
+        })
+    const arus = A17Connect({
+        logger: pino({ level: 'silent' }),
+        printQRInTerminal: true,
+        browser: ['Mizuhara','Safari','1.0.0'],
+        auth: state,
+        version: getVersionWaweb() || [2, 2204, 13]
+    })
+
   console.log(color('\nHello, I am Kai, the main Developer of this bot.\n\nThanks for using: A17 Bot.', 'aqua'))
   console.log(color('\nYou can follow me on GitHub: Kai0071', 'aqua'))
 
