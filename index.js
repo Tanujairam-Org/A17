@@ -26,7 +26,17 @@ const writeFileAsync = promisify(fs.writeFile);
 const path = require("path");
 /// Web
 const { state, saveState } = useMultiFileAuthState(`./${sessionName}.json`)
-
+const getVersionWaweb = () => {
+    let version
+    try {
+        let a = fetchJson('https://web.whatsapp.com/check-update?version=1&platform=web')
+        version = [a.currentVersion.replace(/[.]/g, ', ')]
+    } catch {
+        version = [2, 2204, 13]
+    }
+    return version
+}
+/////////////////
 const {
   imageToWebp,
   videoToWebp,
