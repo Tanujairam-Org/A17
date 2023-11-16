@@ -467,7 +467,7 @@ You'll be a noticeable absence!
     //console.log('Connected...', update)
   });
 
-  A17.ev.on("creds.update", saveCreds);
+A17.ev.on('creds.update', saveState);
 
 
 
