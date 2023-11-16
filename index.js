@@ -2,6 +2,7 @@ require("./config.js");
 const {
   default: A17Connect,
   useMultiFileAuthState,
+  useSingleFileAuthState,
   DisconnectReason,
   fetchLatestBaileysVersion,
   generateForwardMessageContent,
@@ -24,6 +25,8 @@ const PhoneNumber = require("awesome-phonenumber");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
 const path = require("path");
+/// Web
+const { state, saveState } = useSingleFileAuthState(`./${sessionName}.json`)
 
 const {
   imageToWebp,
