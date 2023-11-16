@@ -50,7 +50,7 @@ const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
 
-async function start17() {
+async function startA17() {
     CFonts.say('MIZUHARA\nBY\nARUS', {
         font: 'block',
         align: 'center',
@@ -1070,13 +1070,12 @@ You'll be a noticeable absence!
   return A17;
 }
 
-startA17();
+startA17()
 
-let file = require.resolve(__filename);
+let file = require.resolve(__filename)
 fs.watchFile(file, () => {
-  fs.unwatchFile(file);
-  console.log(chalk.redBright(`${__filename} Updated`));
-  delete require.cache[file];
-  require(file);
-});
-
+	fs.unwatchFile(file)
+	console.log(chalk.redBright(`Update ${__filename}`))
+	delete require.cache[file]
+	require(file)
+})
