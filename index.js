@@ -31,7 +31,7 @@ const { join } = require("path");
 const PORT = global.port;
 const Auth = require("./lib/MongoAuth/MongoAuth");
 const mongoose = require("mongoose");
-const { readcommands, commands } = require("./lib/ReadCommands.js");
+//const { readcommands, commands } = require("./lib/ReadCommands.js");
 
 
 const {
@@ -108,7 +108,7 @@ const startA17 = async () => {
 
   store.bind(A17.ev);
 /////////
-  await readcommands();
+/*  await readcommands();
 
   A17.ev.on("creds.update", saveState);
   A17.serializeM = (m) => smsg(Atlas, m, store);
@@ -158,7 +158,7 @@ const startA17 = async () => {
       QR_GENERATE = qr;
     }
   });
-
+*/
  //
   A17.ws.on('CB:call', async (json) => {
     const callerId = json.content[0].attrs['call-creator']
