@@ -3,7 +3,7 @@
   "description": "A WhatsApp bot based on Baileysjs library (Ts+Js) with Multi Device support",
   "repository": "https://github.com/Kai0071/A17",
   "logo": "https://wallpapercave.com/wp/wp6471201.jpg",
-  "keywords": ["nodejs", "whatsapp bot", "automation", "multi-device", "baileysjs"],
+  "keywords": ["nodejs", "bot", "whatsapp bot", "whatsapp automation", "multi device"],
   "buildpacks": [
     {
       "url": "heroku/nodejs"
@@ -20,14 +20,5 @@
       "quantity": 1,
       "size": "eco"
     }
-  },
-  "scripts": {
-    "start": "node index.js"
-  },
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "engines": {
-    "node": "14.x"
   }
 }
