@@ -776,61 +776,67 @@ Typed *surrender* to surrender and admited defeat`
 
 
 
-      case 'qt': {
-        if (!args[0] && !m.quoted) {
-          return m.reply(`Please provide a text (Type or mention a message) !`);
-        }
+case 'qt': {
+  if (!args[0] && !m.quoted) {
+    return m.reply(`Please provide a text (Type or mention a message) !`);
+  }
 
-        try {
-          let userPfp;
-          if (m.quoted) {
-            userPfp = await A17.profilePictureUrl(m.quoted.sender, "image");
-          } else {
-            userPfp = await A17.profilePictureUrl(m.sender, "image");
-          }
+  try {
+    let userPfp;
+    if (m.quoted) {
+      userPfp = await A17.profilePictureUrl(m.quoted.sender, "image");
+    } else {
+      userPfp = await A17.profilePictureUrl(m.sender, "image");
+    }
 
-          const waUserName = pushname;
-          const quoteText = m.quoted ? m.quoted.body : args.join(" ");
+    const waUserName = pushname;
+    const quoteText = m.quoted ? m.quoted.body : args.join(" ");
 
-          const quoteJson = {
-            type: "quote",
-            format: "png",
-            backgroundColor: "#FFFFFF",
-            width: 700,
-            height: 580,
-            scale: 2,
-            messages: [
-              {
-                entities: [],
-                avatar: true,
-                from: {
-                  id: 1,
-                  name: waUserName,
-                  photo: {
-                    url: userPfp,
-                  },
-                },
-                text: quoteText,
-                replyMessage: {},
-              },
-            ],
-          };
+    const quoteJson = {
+      type: "quote",
+      format: "png",
+      backgroundColor: "#FFFFFF",
+      width: 700,
+      height: 580,
+      scale: 2,
+      messages: [
+        {
+          entities: [],
+          avatar: true,
+          from: {
+            id: 1,
+            name: waUserName,
+            photo: {
+              url: userPfp,
+            },
+          },
+          text: quoteText,
+          replyMessage: {},
+        },
+      ],
+    };
 
-          const quoteResponse = await axios.post("https://bot.lyo.su/quote/generate", quoteJson, {
-            headers: { "Content-Type": "application/json" },
-          });
+    const quoteResponse = await axios.post("https://bot.lyo.su/quote/generate", quoteJson, {
+      headers: { "Content-Type": "application/json" },
+    });
 
-          const buffer = Buffer.from(quoteResponse.data.result.image, "base64");
-          A17.sendImageAsSticker(m.chat, buffer, m, {
-            packname: `${global.BotName}`,
-            author: waUserName,
-          });
-        } catch (error) {
-          console.error(error);
-          m.reply("Error generating quote!");
-        }
-        break;
-      }
+    if (quoteResponse.data && quoteResponse.data.result && quoteResponse.data.result.image) {
+      const buffer = Buffer.from(quoteResponse.data.result.image, "base64");
+      A17.sendImageAsSticker(m.chat, buffer, m, {
+        packname: `${global.BotName}`,
+        author: waUserName,
+      });
+    } else {
+      console.error("Invalid API response:", quoteResponse.data);
+      m.reply("Error generating quote. Invalid API response.");
+    }
+  } catch (error) {
+    console.error("Error generating quote:", error);
+    m.reply("Error generating quote. Check the logs for details.");
+  }
+  break;
+}
+
 
 
 
