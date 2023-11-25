@@ -2647,8 +2647,6 @@ Typed *surrender* to surrender and admited defeat`
 
       case 'getcase':
         if (isBan) return reply(mess.banned);
-        if (m.sender != '916297175943@s.whatsapp.net') { return; }
-
         if (isBanChat) return reply(mess.bangc);
         if (m.isGroup) reply(mess.privateonly)
 
