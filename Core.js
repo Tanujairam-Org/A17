@@ -48,41 +48,22 @@ const { MessageType } = require('@whiskeysockets/baileys');
 
 
 //
-if (time2 < "23:59:00") {
-
-  var nowtime = 'Good night 🌌'
-
-}
-
-if (time2 < "19:00:00") {
-
-  var nowtime = 'Good afternoon 🌆'
-
-}
-
-if (time2 < "18:00:00") {
-
-  var nowtime = 'Good afternoon 🌇'
-
-}
-
-if (time2 < "15:00:00") {
-
-  var nowtime = 'Good afternoon 🏞'
-
-}
-
-if (time2 < "11:00:00") {
-
-  var nowtime = 'Good morning 🌅'
-
-}
+let nowtime = '';
 
 if (time2 < "05:00:00") {
-
-  var nowtime = 'Good night 🏙'
-
+  nowtime = 'Good night 🏙';
+} else if (time2 < "11:00:00") {
+  nowtime = 'Good morning 🌅';
+} else if (time2 < "15:00:00") {
+  nowtime = 'Good afternoon 🏞';
+} else if (time2 < "18:00:00") {
+  nowtime = 'Good evening 🌇';
+} else if (time2 < "19:00:00") {
+  nowtime = 'Good evening 🌆';
+} else {
+  nowtime = 'Good night 🌌';
 }
+
 
 
 
@@ -845,7 +826,7 @@ case 'qt': {
         if (isBanChat) return reply(mess.bangc);
 
         A17.sendMessage(from, { react: { text: "💫", key: m.key } })
-        reply(`⚙ *My developer's group:* https://chat.whatsapp.com/GhRGdwfaMVDCEoeAdzILfl`)
+        reply(`⚙ *My developer's group:* http://gg.gg/gc-support`)
       }
         break;
 
