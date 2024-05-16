@@ -37,7 +37,20 @@ const { isLimit, limitAdd, getLimit, giveLimit, kurangBalance, getBalance, isGam
 const githubstalk = require('./lib/githubstalk');
 let { covid } = require('./lib/covid.js');
 const { Gempa } = require("./lib/gempa.js");
-
+//-------- TEST START
+const {
+	downloadContentFromMessage,
+    BufferJSON,
+    WA_DEFAULT_EPHEMERAL,
+    generateWAMessageFromContent,
+    proto,
+    generateWAMessageContent,
+    generateWAMessage,
+    prepareWAMessageMedia,
+    areJidsSameUser,
+    getContentType
+} = require('@whiskeysockets/baileys')
+//-------- END OF TEST
 const spaceemojis = ["🌌", "🌠", "🚀", "🪐", "🌟"];     // list of emojis for Space CMDs.
 const manyemojis = ["😄", "👍", "👏", "👌", "🥇", "🌟", "🎉", "🙌", "🤩", "💯", "🔥", "✨", "🚀", "💖", "🌈", "🌞", "🌠", "🌼", "💪", "😎", "💫", "💓", "🎈", "🎁", "🍾", "🎊", "🥳", "👑", "🌺", "🌻", "🌸"];
 const os = require('os');       // for os info
@@ -189,7 +202,8 @@ var yye = tgel.getYear();
 //
 module.exports = A17 = async (A17, m, chatUpdate, store) => {
   try {
-    var body = (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectreply.selectedRowId : (m.mtype == 'templateButtonreplyMessage') ? m.message.templateButtonreplyMessage.selectedId : (m.mtype === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectreply.selectedRowId || m.text) : ''
+        var body = (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (m.mtype == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (m.mtype === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : ''
+    //var body = (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectreply.selectedRowId : (m.mtype == 'templateButtonreplyMessage') ? m.message.templateButtonreplyMessage.selectedId : (m.mtype === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectreply.selectedRowId || m.text) : ''
     var budy = (typeof m.text == 'string' ? m.text : '')
     const prefix = global.prefa
     const isCmd = body.startsWith(prefix)
@@ -718,7 +732,57 @@ Typed *surrender* to surrender and admited defeat`
     //
     switch (command) {
 
+      //Buttons Test
+        
+      case 'btntes': case 'tesbtn':
+        if (isBanChat) return reply(mess.bangc);
+        if (isBan) return reply(mess.banned);
+        let msg = generateWAMessageFromContent(m.chat, {
+  viewOnceMessage: {
+    message: {
+        "messageContextInfo": {
+          "deviceListMetadata": {},
+          "deviceListMetadataVersion": 2
+        },
+        interactiveMessage: proto.Message.InteractiveMessage.create({
+          body: proto.Message.InteractiveMessage.Body.create({
+            text: 'test button A17'
+          }),
+          footer: proto.Message.InteractiveMessage.Footer.create({
+            text: 'Powered by Kai'
+          }),
+          header: proto.Message.InteractiveMessage.Header.create({
+            title: 'Test',
+            subtitle: null,
+            hasMediaAttachment: false
+          }),
+          nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+            buttons: [
+              {
+  "name": "quick_reply",
+  "buttonParamsJson": `{"display_text":"Allmenu 🗂️","id":"${global.prefa[0]}menu"}`
+   },
+              {
+                "name": "quick_reply",
+                "buttonParamsJson": `{"display_text":"Owner 👤","id":"${global.prefa[0]}owner"}`
+              },
+              {
+                "name": "quick_reply",
+                "buttonParamsJson": `{"display_text":"Script 📃","id":"${global.prefa[0]}script"}`
+              }
+           ],
+          })
+        })
+    }
+  }
+}, {})
 
+A17.relayMessage(msg.key.remoteJid, msg.message, {
+  messageId: msg.key.id
+})
+        break;
+
+        
       //
       case 'sc': case 'script': case 'sourcecode': {
         if (isBan) return reply(mess.banned);
@@ -1130,6 +1194,26 @@ case 'qt': {
       }
 
 
+      case 'ls':
+        if (isBan) return reply(mess.banned);
+        if (isBanChat) return reply(mess.bangc);
+        A17.sendMessage(from, { react: { text: "📂", key: m.key } });
+
+
+        const currentDir = process.cwd(); // Get the current working directory
+
+        try {
+          const files = fs.readdirSync(currentDir);
+          let folderName = `Files in ${currentDir}:\n\n`;
+          let fileList = files.join('\n'); // Join the file names with a newline
+          A17.sendMessage(from, { text: folderName + fileList }, m);
+        } catch (error) {
+          console.error(error);
+          A17.sendMessage(from, { text: 'Error reading directory contents.🫳🏻' }, m);
+        }
+        break;
+
+
       case 'autostatus':
       case 'auto-status':
       case 'statusevent':
@@ -1263,9 +1347,66 @@ case 'qt': {
         break;
 
 
+      //
+
+      case 'dice': case 'roll': {
+        A17.sendMessage(from, { react: { text: "🎲", key: m.key } })
+        const result = Math.floor(Math.random() * 6) + 1; // Generate a random number between 1 and 6
+
+        const diceMessage = `🎲 *Dice Roll Result:* ${result}`;
+
+        reply(diceMessage);
+      }
+        break;
+
+
+      case 'flipcoin': case 'coin': {
+        A17.sendMessage(from, { react: { text: "🪙", key: m.key } });
+        // Simulate flipping a coin (0 for heads, 1 for tails)
+        const result = Math.random() < 0.5 ? 'Heads' : 'Tails';
+
+        const flipCoinMessage = `🪙 *Coin Flip Result: ${result}*`;
+        reply(flipCoinMessage);
+      }
+        break;
+
+
+      case 'rps': {
+        const randomEmoji = manyemojis[Math.floor(Math.random() * manyemojis.length)];
+        A17.sendMessage(from, { react: { text: randomEmoji, key: m.key } });
+
+        // Check if the command includes a valid move (rock, paper, or scissors)
+        const validMoves = ['rock', 'paper', 'scissors'];
+        if (!args[0] || !validMoves.includes(args[0].toLowerCase())) {
+          return reply('Please provide a valid move: rock, paper, or scissors.');
+        }
+
+        // Generate a random move for the bot
+        const botMove = validMoves[Math.floor(Math.random() * validMoves.length)];
+
+        // Determine the winner
+        const userMove = args[0].toLowerCase();
+        let result;
+
+        if (userMove === botMove) {
+          result = 'It\'s a tie!';
+        } else if (
+          (userMove === 'rock' && botMove === 'scissors') ||
+          (userMove === 'paper' && botMove === 'rock') ||
+          (userMove === 'scissors' && botMove === 'paper')
+        ) {
+          result = `You win! 🥳 ${userMove} beats ${botMove}.`;
+        } else {
+          result = `You lose! 🫳🏻 ${botMove} beats ${userMove}.`;
+        }
+
+        // Send the result as a response
+        reply(`You chose ${userMove}.\nA17 chose ${botMove}.\n${result}`);
+      }
+        break;
+
 
       // economy ...
-
       case 'daily': case 'claim': case 'reward':
 
         {
@@ -1284,6 +1425,7 @@ case 'qt': {
           reply(`You claimed 💎${daily.amount} for daily`);
         }
         break;
+
 
       case 'wallet': case 'purse': {
 
@@ -1304,7 +1446,6 @@ case 'qt': {
         await reply(`👛 ${pushname}'s Purse:\n\n_💎${balance.wallet}_`);
 
       }
-
         break;
 
 
@@ -1485,11 +1626,11 @@ case 'qt': {
 
 
 
-      /* ████ ✪ ███▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ [ GAMBLE ] ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███ ✪ ███ */
+      //-------------------------------------------------------------------------------------------------------------------------------------//
 
 
 
-      //
+      //gamble
       case 'gamble': case 'lottery':
         if (isBan) return reply(mess.banned);
         if (isBanChat) return reply(mess.bangc);
@@ -1681,7 +1822,7 @@ case 'qt': {
 
 
 
-      /////////////////////////////////////////////////////////////////////////////////////////////////
+      //----------------------------------------------------------------------------------------------------------------------------------------//
 
 
 
@@ -2635,7 +2776,6 @@ case 'qt': {
       case 'getcase':
         if (isBan) return reply(mess.banned);
         if (isBanChat) return reply(mess.bangc);
-        if (m.isGroup) reply(mess.privateonly)
 
         A17.sendMessage(from, { react: { text: "🫡", key: m.key } })
 
@@ -4081,8 +4221,7 @@ case 'qt': {
 
 
 
-      //////////////////////////////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //---------------------------------------------------------------------------------------------------------------------------------------//
 
 
 
@@ -4234,7 +4373,7 @@ case 'qt': {
 
 
 
-       //--------------------------------------------------------------------------------------------------------------------//
+      //-------------------------------------------------------------------------------------------------------------------------------------//
 
 
 
@@ -4304,6 +4443,8 @@ case 'qt': {
       //   });
       // }
       // break;
+
+
       case 'gimage':
       case 'gig':
       case 'googleimage': {
@@ -4335,11 +4476,6 @@ case 'qt': {
         });
       }
         break;
-
-
-
-
-
 
 
       // case "gig":
@@ -4380,7 +4516,9 @@ case 'qt': {
 
 
 
-      //---------------------------------------- NASA  -----------------------------------------//
+      //-------------------------------------------------------------------------------------------------------------------------------------//
+
+
 
       case 'apod': {
         if (isBan) return reply(mess.banned);
@@ -4472,6 +4610,59 @@ case 'qt': {
         const result2 = `*Title :* ${res2[0].judul}\n*Wiki :* ${res2[0].wiki}`
         A17.sendMessage(from, { image: { url: res2[0].thumb }, caption: result2 })
         break;
+
+
+      case 'urban': {
+        A17.sendMessage(from, { react: { text: "📖", key: m.key } })
+        // Extract the word from the message
+        const word = text.trim();
+
+        if (!word) {
+          reply(`Please provide a word to look up on Urban Dictionary. Example: ${prefix}urban hello`);
+          return;
+        }
+
+        // Make a request to the Urban Dictionary API
+        const apiUrl = `https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(word)}`;
+
+        try {
+          const response = await axios.get(apiUrl);
+
+          // Extract the first definition from the API response
+          const definition = response.data.list[0]?.definition;
+
+          if (definition) {
+            const urbanMessage = `📖 *Urban Dictionary Definition for "${word}":*\n\n${definition}`;
+            reply(urbanMessage);
+          } else {
+            reply(`No Urban Dictionary definition found for "${word}".`);
+          }
+        } catch (error) {
+          console.error('Error fetching Urban Dictionary definition:', error.message);
+          reply('An error occurred while fetching the Urban Dictionary definition. Please try again later.');
+        }
+      }
+        break;
+
+
+        case 'aju': case 'campus': case 'imgaju':
+        if (isBan) return reply(mess.banned);
+        if (isBanChat) return reply(mess.bangc);
+        if (!m.isGroup) return reply(mess.grouponly);
+        A17.sendMessage(from, { react: { text: "✨", key: m.key } })
+
+        const aju = {
+          image: { url: 'https://campus-pictures.onrender.com/' },
+          caption: `${pushname} here you go...`,
+         
+        }
+
+        await A17.sendMessage(m.chat, aju, { quoted: m }).catch(err => {
+          return ('Error!')
+        })
+
+        break;
+
 
       case 'earthquake':
         if (isBan) return reply(mess.banned);
@@ -7197,9 +7388,16 @@ Hemlo, I am "A17" a WhatsApp bot create and recode by Kai to do everything that 
   } catch (err) {
     A17.sendMessage(`${ownertag}@s.whatsapp.net`, util.format(err), { quoted: m })
     console.log(err)
+    let e = String(err)
+    if (e.includes("not-authorized")) return
+    if (e.includes("already-exists")) return
+    if (e.includes("rate-overlimit")) return
+    if (e.includes("Connection Closed")) return
+    if (e.includes("Timed Out")) return
+    if (e.includes("Value not found")) return
+    if (e.includes("Socket connection timeout")) return
   }
 }
-
 
 let file = require.resolve(__filename)
 fs.watchFile(file, () => {
@@ -7208,4 +7406,3 @@ fs.watchFile(file, () => {
   delete require.cache[file]
   require(file)
 })
-
